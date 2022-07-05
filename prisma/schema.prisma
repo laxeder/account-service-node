@@ -34,7 +34,7 @@ model Account {
   cpf         String   @unique @map("cpf") @db.VarChar(14)
   rg          String   @unique @map("rg") @db.VarChar(32)
   nickname    String   @unique @map("nickname") @db.VarChar(32)
-  picture     String   @map("picture") // TODO: esse campo deve ser um blob
+  picture     String   @map("picture") @db.Text // TODO: esse campo deve ser um blob
   profession  String   @map("profession") @db.VarChar(50)
   company     String   @map("company") @db.VarChar(50)
   description String   @map("description") @db.VarChar(255)
