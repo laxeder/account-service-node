@@ -8,6 +8,9 @@
     "staging": "set NODE_ENV=production && nodemon app.js --prod",
     "build": "set NODE_ENV=production && npm ci"
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Laxeder/account-service-node.git"
@@ -20,6 +23,7 @@
   "homepage": "https://github.com/Laxeder/account-service-node#readme",
   "dependencies": {
     "@fnando/cpf": "1.0.2",
+    "@prisma/client": "^4.0.0",
     "body-parser": "1.20.0",
     "child_process": "1.0.2",
     "cors": "2.8.5",
@@ -32,6 +36,7 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "jest": "28.1.1"
+    "jest": "28.1.1",
+    "prisma": "^4.0.0"
   }
 }

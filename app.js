@@ -1,5 +1,6 @@
 require("dotenv/config");
 
+const { PrismaClient } = require("@prisma/client");
 const server = require("./src/server");
 const logger = require("./src/infrastructure/config/logger");
 
@@ -11,6 +12,8 @@ server.listen(process.env.PORT, () => {
   logger.info(`hostname: ${process.env.HOSTNAME}`);
   logger.info(`NODE_ENV: ${process.env.NODE_ENV}`);
 });
+
+const prisma = new PrismaClient();
 
 // criar uma conta
 

@@ -1,14 +1,54 @@
 const Response = require("../infrastructure/utils/Response");
 const regex = require("../infrastructure/utils/regex");
 
+/*
+alexSandro - camelCase
+AlexSandro - PascalCase
+alex_sandro - snakeCase
+alex-sandro - kebabCase
+*/
 class User {
   constructor(firstName, lastName, email, phone, password, confirmPassword) {
     this.firstName = firstName;
     this.lastName = lastName;
+    this.fullName = `${firstName} ${lastName}`;
     this.email = email;
     this.phone = phone;
     this.password = password;
     this.confirmPassword = confirmPassword;
+
+    this.uuid = "";
+    this.createdAt = "";
+    this.updatedAt = "";
+    this.enabled = false;
+  }
+
+  setUuid(uuid) {
+    return (this.uuid = uuid);
+  }
+
+  setCreatedAt(createdAt) {
+    return (this.createdAt = createdAt);
+  }
+
+  setUpdatedAt(updatedAt) {
+    return (this.updatedAt = updatedAt);
+  }
+
+  setEnabled(enabled) {
+    return (this.enabled = enabled);
+  }
+
+  setFullName(firstName = "", lastName = "") {
+    if (!!firstName) {
+      this.firstName = firstName;
+    }
+
+    if (!!lastName) {
+      this.lastName = lastName;
+    }
+
+    this.fullName = `${this.firstName} ${this.lastName}`;
   }
 
   validFirstName() {

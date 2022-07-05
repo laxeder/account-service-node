@@ -1,0 +1,37 @@
+version: '3'
+services:
+  environment:
+    container_name: account-service-node
+    image:  mysql
+    hostname: account-service-node
+    labels:
+      description: environment-mysql
+      org.opencontainers.image.name: environment-mysql
+      org.opencontainers.image.authors: Laxeder
+      org.opencontainers.image.hostname: environment-mysql
+      com.docker.volume.name: environment-mysql
+      com.docker.network.bridge.name: environment-mysql
+    working_dir: /var/lib/mysql
+    volumes:
+      - ./data:/var/lib/mysql
+    env_file:
+      - ./.env
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: "development"
+      MYSQL_USER: "development"
+      MYSQL_ROOT_PASSWORD: "Alterar123"
+      MYSQL_PASSWORD: "Alterar123"
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      local-network:
+    restart: always
+    ports:
+      - 3306:3306 # host:container
+volumes:
+  local-volume:
+    name: environment-mysql
+networks:
+  local-network:
+    name: environment-mysql
+    driver: bridge

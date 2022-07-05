@@ -31,27 +31,6 @@ class Account extends User {
     this.profession = profession;
     this.company = company;
     this.description = description;
-
-    this.uuid = "";
-    this.createdAt = "";
-    this.updatedAt = "";
-    this.enabled = false;
-  }
-
-  setUuid(uuid) {
-    return (this.uuid = uuid);
-  }
-
-  setCreatedAt(createdAt) {
-    return (this.createdAt = createdAt);
-  }
-
-  setUpdatedAt(updatedAt) {
-    return (this.updatedAt = updatedAt);
-  }
-
-  setEnabled(enabled) {
-    return (this.enabled = enabled);
   }
 
   validBirthdate() {
