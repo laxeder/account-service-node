@@ -23,7 +23,7 @@
   "homepage": "https://github.com/Laxeder/account-service-node#readme",
   "dependencies": {
     "@fnando/cpf": "1.0.2",
-    "@prisma/client": "^4.0.0",
+    "@prisma/client": "4.0.0",
     "body-parser": "1.20.0",
     "child_process": "1.0.2",
     "cors": "2.8.5",
@@ -33,10 +33,10 @@
     "nodemon": "2.0.16",
     "pino": "8.0.0",
     "pino-pretty": "8.0.0",
-    "uuid": "8.3.2"
+    "uuid": "8.3.2",
+    "prisma": "4.0.0"
   },
   "devDependencies": {
-    "jest": "28.1.1",
-    "prisma": "^4.0.0"
+    "jest": "28.1.1"
   }
 }
