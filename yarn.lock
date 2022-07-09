@@ -2197,6 +2197,11 @@
   "resolved" "https://registry.npmjs.org/jsesc/-/jsesc-2.5.2.tgz"
   "version" "2.5.2"
 
+"jshashes@1.0.8":
+  "integrity" "sha512-btmQZ/w1rj8Lb6nEwvhjM7nBYoj54yaEFo2PWh3RkxZ8qNwuvOxvQYN/JxVuwoMmdIluL+XwYVJ+pEEZoSYybQ=="
+  "resolved" "https://registry.npmjs.org/jshashes/-/jshashes-1.0.8.tgz"
+  "version" "1.0.8"
+
 "json-buffer@3.0.0":
   "integrity" "sha512-CuUqjv0FUZIdXkHPI8MezCnFCdaTAacej1TZYulLoAg1h/PhwkdXFN4V/gzY4g+fMBCOV2xF+rp7t2XD2ns/NQ=="
   "resolved" "https://registry.npmjs.org/json-buffer/-/json-buffer-3.0.0.tgz"
@@ -2411,6 +2416,11 @@
     "touch" "^3.1.0"
     "undefsafe" "^2.0.5"
     "update-notifier" "^5.1.0"
+
+"nonce@1.0.4":
+  "integrity" "sha512-FVPu+tMZPP91HDwiq1DNhn9WIhg4/uo6mXR0xXAn0IMOxDmjJOkgbH0tm7qtowvAFZofWZRX+9KWZpNURrgtSA=="
+  "resolved" "https://registry.npmjs.org/nonce/-/nonce-1.0.4.tgz"
+  "version" "1.0.4"
 
 "nopt@~1.0.10":
   "integrity" "sha512-NWmpvLSqUrgrAC9HCuxEvb+PSloHpqVu+FqcO4eeF2h5qYRhA7ev6KvelyQAKtegUbC6RypJnlEOhd8vloNKYg=="
@@ -2896,6 +2906,11 @@
   "integrity" "sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw=="
   "resolved" "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.2.0.tgz"
   "version" "1.2.0"
+
+"sha512@0.0.1":
+  "integrity" "sha512-2t5rZu72ebMg2/OK44S/48UKxgBl7Kc3w/I0DkIzNld8NzDUxFBL2pOYAWEVknnuOqO62a3W+3x/xD7LrosGBg=="
+  "resolved" "https://registry.npmjs.org/sha512/-/sha512-0.0.1.tgz"
+  "version" "0.0.1"
 
 "shebang-command@^2.0.0":
   "integrity" "sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA=="

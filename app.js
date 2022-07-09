@@ -1,10 +1,10 @@
 require("dotenv/config");
 
-const { PrismaClient } = require("@prisma/client");
+// const { PrismaClient } = require("@prisma/client");
 const server = require("./src/server");
 const logger = require("./src/infrastructure/config/logger");
 
-//ACC062
+//ACC063
 
 server.listen(process.env.PORT, () => {
   logger.info(`port: ${process.env.PORT}`);
@@ -13,7 +13,7 @@ server.listen(process.env.PORT, () => {
   logger.info(`NODE_ENV: ${process.env.NODE_ENV}`);
 });
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
 // criar uma conta
 

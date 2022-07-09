@@ -1,17 +1,10 @@
 const Response = require("../infrastructure/utils/Response");
-const User = require("./User");
 const cpf = require("@fnando/cpf");
 const regex = require("../infrastructure/utils/regex");
 const isBase64 = require("is-base64");
 
-class Account extends User {
+class Account {
   constructor(
-    firstName,
-    lastName,
-    email,
-    password,
-    confirmPassword,
-    phone,
     birthdate,
     cpf,
     rg,
@@ -21,8 +14,6 @@ class Account extends User {
     company,
     description
   ) {
-    super(firstName, lastName, email, password, confirmPassword, phone);
-
     this.birthdate = birthdate;
     this.cpf = cpf;
     this.rg = rg;
@@ -31,6 +22,11 @@ class Account extends User {
     this.profession = profession;
     this.company = company;
     this.description = description;
+    this.uuid = "";
+  }
+
+  setUuid(uuid = "") {
+    return (this.uuid = uuid);
   }
 
   validBirthdate() {
@@ -45,9 +41,10 @@ class Account extends User {
     }
 
     const now = new Date(Date.now()).getFullYear();
-    const birthdate = new Date(this.birthdate).getFullYear();
+    const birthdate = new Date(this.birthdate);
+    const year = birthdate.getFullYear();
 
-    if (now - birthdate > 120) {
+    if (now - year > 120) {
       return Response.error(
         400,
         "ACC043",
@@ -55,13 +52,15 @@ class Account extends User {
       );
     }
 
-    if (now - birthdate < 8) {
+    if (now - year < 8) {
       return Response.error(
         400,
         "ACC044",
         "A data de aniversário precisa ser menor que 8 anos."
       );
     }
+
+    this.birthdate = birthdate;
 
     return Response.result(200);
   }
@@ -155,6 +154,8 @@ class Account extends User {
       return Response.error(400, "ACC059", "O arquivo deve ser menor que 1MB.");
     }
 
+    this.picture = buffer;
+
     return Response.result(200);
   }
 
@@ -206,10 +207,7 @@ class Account extends User {
     return Response.result(200);
   }
 
-  validate() {
-    const checkValid = this.valid();
-    if (!this.hasResult(checkValid)) return checkValid;
-
+  valid() {
     const checkBirthdate = this.validBirthdate();
     if (!this.hasResult(checkBirthdate)) return checkBirthdate;
 
@@ -235,6 +233,10 @@ class Account extends User {
     if (!this.hasResult(checkDescription)) return checkDescription;
 
     return Response.result(200);
+  }
+
+  hasResult(result) {
+    return result.status === 200;
   }
 }
 

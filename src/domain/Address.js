@@ -10,6 +10,11 @@ class Address {
     this.city = city;
     this.state = state;
     this.zipcode = zipcode;
+    this.uuid = "";
+  }
+
+  setUuid(uuid = "") {
+    this.uuid = uuid;
   }
 
   validStreet() {

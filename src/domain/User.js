@@ -18,13 +18,19 @@ class User {
     this.confirmPassword = confirmPassword;
 
     this.uuid = "";
+    this.uid = 0;
     this.createdAt = "";
     this.updatedAt = "";
     this.enabled = false;
+    this.salt = "";
   }
 
-  setUuid(uuid) {
+  setUuid(uuid = "") {
     return (this.uuid = uuid);
+  }
+
+  setUid(uid = 0) {
+    return (this.uid = uid);
   }
 
   setCreatedAt(createdAt) {
@@ -247,6 +253,11 @@ class User {
     if (!this.hasResult(checkConfirmPassword)) return checkConfirmPassword;
 
     return Response.result(200, "");
+  }
+
+  setPassword(hash = "", salt = "") {
+    this.password = hash;
+    this.salt = salt;
   }
 
   hasResult(result) {
