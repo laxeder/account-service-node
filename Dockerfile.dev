@@ -1,0 +1,58 @@
+
+#!/usr/bin/env node
+## Node alpine
+FROM node:alpine AS environment-node
+
+LABEL description="environment-node"
+
+LABEL org.opencontainers.image.name="environment-node"
+LABEL org.opencontainers.image.authors="lucasfrct@gmail.com"
+LABEL org.opencontainers.image.hostname="environment-node"
+
+LABEL com.docker.volume.name='environment-node'
+LABEL com.docker.network.bridge.name='environment-node'
+
+## diretorios de trabalho
+WORKDIR /usr/environment-node
+
+# install node-gyp
+# RUN npm install node-gyp -g
+# RUN npm install pm2 -g
+
+## Arquivos de iniciacao para o node
+COPY package*.json ./
+
+## install dependences com permissoes root
+RUN npm install node
+RUN npm install -g nodemon
+RUN npm install --force
+# RUN npm audit fix --force
+
+## Copia projeto
+COPY . .
+
+# ## alterar permissões para o formato linux
+# RUN find ./prisma -type f -print0 | xargs -0 sed -i 's/\r$//'
+# RUN find ./src -type f -print0 | xargs -0 sed -i 's/\r$//'
+# RUN find ./prisma -type d -print0 | xargs -0 chmod 755  
+# RUN find ./src -type d -print0 | xargs -0 chmod 755  
+# RUN find ./prisma -type f -print0 | xargs -0 chmod 644
+# RUN find ./src -type f -print0 | xargs -0 chmod 644
+# RUN cd ./prisma && chmod -R +x *.js
+# RUN cd ./src && chmod -R +x *.js
+# RUN chmod -R +x ./app.js
+
+# RUN chmod -R +x *.ts
+
+## porta de acesso
+EXPOSE 3000
+
+## diretorio padrao
+VOLUME /usr/environment-node
+
+RUN yarn prisma migrate dev
+
+## start do ambiente
+# CMD [ "pm2-runtime","npm", "--", "run", "dev" ]
+
+CMD ["npm", "run", "dev:linux"]

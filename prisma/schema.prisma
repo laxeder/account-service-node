@@ -4,7 +4,8 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl", "windows"]
 }
 
 model User {
@@ -24,6 +25,7 @@ model User {
 
   Account Account[]
   Address Address[]
+
   @@index([uid, uuid, email, phone, firstName, fullName, password])
   @@map("Users")
 }
@@ -36,7 +38,7 @@ model Account {
   cpf         String   @unique @map("cpf") @db.VarChar(14)
   rg          String   @unique @map("rg") @db.VarChar(32)
   nickname    String   @unique @map("nickname") @db.VarChar(32)
-  picture     Bytes    @map("picture") @db.Blob // TODO: esse campo deve ser um blob
+  picture     Bytes    @map("picture") @db.Blob
   profession  String   @map("profession") @db.VarChar(50)
   company     String   @map("company") @db.VarChar(50)
   description String   @map("description") @db.VarChar(255)
