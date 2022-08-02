@@ -51,8 +51,6 @@ RUN npm install -g yarn --force
 
 COPY --from=build /usr/production-node /
 
-RUN yarn prisma migrate dev
-
 ## porta de acesso
 EXPOSE 9000
 

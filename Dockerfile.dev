@@ -6,7 +6,7 @@ FROM node:alpine AS environment-node
 LABEL description="environment-node"
 
 LABEL org.opencontainers.image.name="environment-node"
-LABEL org.opencontainers.image.authors="lucasfrct@gmail.com"
+LABEL org.opencontainers.image.authors="laxederbr@gmail.com"
 LABEL org.opencontainers.image.hostname="environment-node"
 
 LABEL com.docker.volume.name='environment-node'
@@ -49,8 +49,6 @@ EXPOSE 3000
 
 ## diretorio padrao
 VOLUME /usr/environment-node
-
-RUN yarn prisma migrate dev
 
 ## start do ambiente
 # CMD [ "pm2-runtime","npm", "--", "run", "dev" ]
