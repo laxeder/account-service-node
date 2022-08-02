@@ -5,8 +5,12 @@
   "main": "app.js",
   "scripts": {
     "dev": "set NODE_ENV=development && nodemon app.js",
+    "dev:linux": "export NODE_ENV=development && nodemon -L app.js",
     "staging": "set NODE_ENV=production && nodemon app.js --prod",
-    "build": "set NODE_ENV=production && npm ci"
+    "staging:linux": "export NODE_ENV=production && nodemon -L app.js --prod",
+    "prod:linux": "nodemon -L app.js --prod",
+    "build": "set NODE_ENV=production && npm ci",
+    "build:linux": "export NODE_ENV=production && npm ci"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
@@ -29,15 +33,15 @@
     "cors": "2.8.5",
     "dotenv": "16.0.1",
     "express": "4.18.1",
+    "graceful": "1.0.2",
     "is-base64": "1.1.0",
     "jshashes": "1.0.8",
-    "nodemon": "2.0.16",
+    "nodemon": "^2.0.19",
     "nonce": "1.0.4",
-    "pino": "8.0.0",
-    "pino-pretty": "8.0.0",
-    "prisma": "4.0.0",
+    "prisma": "4.1.0",
     "sha512": "0.0.1",
-    "uuid": "8.3.2"
+    "uuid": "8.3.2",
+    "winston": "3.8.1"
   },
   "devDependencies": {
     "jest": "28.1.1"
