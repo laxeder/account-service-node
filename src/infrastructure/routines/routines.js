@@ -1,7 +1,5 @@
 const routinesRun = () => {
-  (async () => {
-    console.log("Routines run");
-  })();
+  (async () => {})();
   return (req, res, next) => next();
 };
 
