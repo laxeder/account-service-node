@@ -2,12 +2,19 @@ const uuidLib = require("uuid");
 const nonce = require("nonce")();
 
 const { createHash } = require("../../../infrastructure/utils/password");
-const Response = require("../../../infrastructure/utils/response");
-const Account = require("../../../domain/Account");
-const Address = require("../../../domain/Address");
-const User = require("../../../domain/User");
+const Response = require("../../../infrastructure/utils/Response");
 const logger = require("../../../infrastructure/config/logger");
+const Address = require("../../../domain/Address");
+const Account = require("../../../domain/Account");
+const User = require("../../../domain/User");
+const mysqlHealth = require("../../../infrastructure/shared/mysql-health");
 
+/**
+ * * Cria uma conta
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
 module.exports = async (req, res) => {
   try {
     const { body, prisma } = req;
@@ -24,6 +31,7 @@ module.exports = async (req, res) => {
       zipcode
     );
 
+    // Cria e válida endereço
     const checkAddress = address.valid();
     if (checkAddress.status !== 200) {
       logger.error(
@@ -60,6 +68,7 @@ module.exports = async (req, res) => {
       confirm_password
     );
 
+    // Cria e válida usuário
     const checkUser = user.valid();
     if (checkUser.status !== 200) {
       logger.error(`Erro ao validar o usuario: ${JSON.stringify(checkUser)}`);
@@ -78,6 +87,7 @@ module.exports = async (req, res) => {
       description
     );
 
+    // Cria e válida conta
     const checkAccount = account.valid();
     if (checkAccount.status !== 200) {
       logger.error(`Erro ao validar a conta: ${JSON.stringify(checkAccount)}`);
@@ -86,6 +96,14 @@ module.exports = async (req, res) => {
       return;
     }
 
+    const [err] = await mysqlHealth(prisma);
+    if (err) {
+      logger.error(`Erro ao tentar acessar o banco de dados: ${err.stack}`);
+      Response.json(res, Response.errorDefault("ACC116"));
+      return;
+    }
+
+    // Verifica se email já está em uso
     const checkEmail = await prisma.User.findUnique({
       where: {
         email: user.email,
@@ -108,6 +126,7 @@ module.exports = async (req, res) => {
       return;
     }
 
+    // Verifica se cpf já está em uso
     const checkCPF = await prisma.Account.findUnique({
       where: {
         cpf: account.cpf,
@@ -130,6 +149,7 @@ module.exports = async (req, res) => {
       return;
     }
 
+    // Verifica se rg já está em uso
     const checkRG = await prisma.Account.findUnique({
       where: {
         rg: account.rg,
@@ -153,6 +173,7 @@ module.exports = async (req, res) => {
       return;
     }
 
+    // Verifica se apelido já está em uso
     const checkNickname = await prisma.Account.findUnique({
       where: {
         nickname: account.nickname,
@@ -178,9 +199,11 @@ module.exports = async (req, res) => {
       return;
     }
 
+    // Cria um uuid e uid aleatório
     const uuid = uuidLib.v4();
     const uid = BigInt(nonce());
 
+    // Define ids
     address.setUuid(uuid);
     account.setUuid(uuid);
     user.setUuid(uuid);
@@ -189,20 +212,22 @@ module.exports = async (req, res) => {
     user.setUpdatedAt(new Date());
     user.setEnabled(true);
 
+    // Cria e define senha
     const { hash, salt } = createHash(user.password);
-
     user.setPassword(hash, salt);
     user.setFullName(user.firstName, user.lastName);
 
+    //? O prisma não aceita enviar outros campos, então retiro ele antes de enviá-lo
     delete user.confirmPassword;
 
+    // Cria conta no banco de dados
     await prisma.User.create({ data: user });
     await prisma.Account.create({ data: account });
     await prisma.Address.create({ data: address });
 
     Response.json(res, Response.result(201));
   } catch (e) {
-    logger.error(`Erro ao tentar criar um usuario. ${e}`);
+    logger.error(`Erro ao tentar criar um usuario. ${e.stack}`);
     Response.json(res, Response.errorDefault("ACC063"));
   }
 };

@@ -1,12 +1,9 @@
 const Response = require("../infrastructure/utils/Response");
 const regex = require("../infrastructure/utils/regex");
 
-/*
-alexSandro - camelCase
-AlexSandro - PascalCase
-alex_sandro - snakeCase
-alex-sandro - kebabCase
-*/
+/**
+ * * Criar usuário
+ */
 class User {
   constructor(firstName, lastName, email, phone, password, confirmPassword) {
     this.firstName = firstName;
@@ -25,26 +22,56 @@ class User {
     this.salt = "";
   }
 
+   /**
+   * * Define uuid do usuário
+   * @param {*} uuid 
+   * @returns 
+   */
   setUuid(uuid = "") {
     return (this.uuid = uuid);
   }
 
+   /**
+   * * Define uid do usuário
+   * @param {*} uuid 
+   * @returns 
+   */
   setUid(uid = 0) {
     return (this.uid = uid);
   }
 
+   /**
+   * * Define data de criação do usuário
+   * @param {*} uuid 
+   * @returns 
+   */
   setCreatedAt(createdAt) {
     return (this.createdAt = createdAt);
   }
 
+  /**
+   * * Define data de ultima vez atualizado
+   * @param {*} updatedAt 
+   * @returns 
+   */
   setUpdatedAt(updatedAt) {
     return (this.updatedAt = updatedAt);
   }
 
+  /**
+   * * Define se usuário está ativo
+   * @param {*} enabled 
+   * @returns 
+   */
   setEnabled(enabled) {
     return (this.enabled = enabled);
   }
 
+  /**
+   * * Define nome completo do está usuário
+   * @param {*} firstName 
+   * @param {*} lastName 
+   */
   setFullName(firstName = "", lastName = "") {
     if (!!firstName) {
       this.firstName = firstName;
@@ -57,6 +84,10 @@ class User {
     this.fullName = `${this.firstName} ${this.lastName}`;
   }
 
+  /**
+   * * Validar primeiro nome
+   * @returns 
+   */
   validFirstName() {
     if (!!!this.firstName) {
       return Response.error(400, "ACC003", "O campo nome é obrigatório.");
@@ -89,6 +120,10 @@ class User {
     return Response.result(200);
   }
 
+  /**
+   * * Validar ultimo nome
+   * @returns 
+   */
   validLastName() {
     if (!!!this.lastName) {
       return Response.error(400, "ACC007", "O campo sobrenome é obrigatório.");
@@ -121,6 +156,10 @@ class User {
     return Response.result(200);
   }
 
+  /**
+   * * Validar email
+   * @returns 
+   */
   validEmail() {
     if (!!!this.email) {
       return Response.error(400, "ACC011", "O campo email é obrigatório.");
@@ -148,7 +187,11 @@ class User {
 
     return Response.result(200);
   }
-
+  
+  /**
+   * * Validar telefone
+   * @returns 
+   */
   validPhone() {
     if (!!!this.phone) {
       return Response.error(400, "ACC015", "O campo número é obrigatório.");
@@ -173,6 +216,10 @@ class User {
     return Response.result(200);
   }
 
+  /**
+   * * Validar senha
+   * @returns 
+   */
   validPassword() {
     if (!!!this.password) {
       return Response.error(400, "ACC017", "O campo senha é obrigatório.");
@@ -221,6 +268,10 @@ class User {
     return Response.result(200);
   }
 
+  /**
+   * * Validar se senha de confirmção está correta
+   * @returns 
+   */
   validConfirmPassword() {
     if (this.confirmPassword !== this.password) {
       return Response.error(
@@ -232,7 +283,11 @@ class User {
 
     return Response.result(200);
   }
-
+  
+  /**
+   * * Verificar se todos os campos estão válidos
+   * @returns 
+   */
   valid() {
     const checkFirstName = this.validFirstName();
     if (!this.hasResult(checkFirstName)) return checkFirstName;
@@ -255,11 +310,21 @@ class User {
     return Response.result(200, "");
   }
 
+  /**
+   * * Definir senha
+   * @param {*} hash 
+   * @param {*} salt 
+   */
   setPassword(hash = "", salt = "") {
     this.password = hash;
     this.salt = salt;
   }
 
+  /**
+   * * Verificar se o resultado foi bem sucedido
+   * @param {*} result 
+   * @returns 
+   */
   hasResult(result) {
     return result.status === 200;
   }

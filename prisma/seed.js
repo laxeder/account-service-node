@@ -1,6 +1,9 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+/**
+ * * Testa o prisma
+ */
 async function main() {
   const user = await prisma.User.create({
     data: {

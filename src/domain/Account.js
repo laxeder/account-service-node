@@ -3,6 +3,9 @@ const cpf = require("@fnando/cpf");
 const regex = require("../infrastructure/utils/regex");
 const isBase64 = require("is-base64");
 
+/**
+ * * Cria uma conta
+ */
 class Account {
   constructor(
     birthdate,
@@ -25,10 +28,19 @@ class Account {
     this.uuid = "";
   }
 
+  /**
+   * * Define uuid da conta
+   * @param {*} uuid 
+   * @returns 
+   */
   setUuid(uuid = "") {
     return (this.uuid = uuid);
   }
 
+  /**
+   * * Validar data de aniversário
+   * @returns 
+   */
   validBirthdate() {
     if (!!!this.birthdate) {
       return Response.error(400, "ACC019", "O campo data é obrigátorio.");
@@ -36,6 +48,7 @@ class Account {
 
     const timestamp = Date.parse(this.birthdate);
 
+    // Verifica se é uma data válida
     if (isNaN(timestamp)) {
       return Response.error(400, "ACC020", "O campo data não é válido.");
     }
@@ -65,6 +78,10 @@ class Account {
     return Response.result(200);
   }
 
+  /**
+   * * Validar cpf
+   * @returns 
+   */
   validCPF() {
     if (!!!this.cpf) {
       return Response.error(400, "ACC045", "O campo cpf é obrigátorio.");
@@ -72,11 +89,15 @@ class Account {
 
     if (!cpf.isValid(this.cpf)) {
       return Response.error(400, "ACC052", "CPF inválido");
-    }
+    } 
 
     return Response.result(200);
   }
-
+  
+  /**
+   * * Validar RG
+   * @returns 
+   */
   validRG() {
     if (!!!this.rg) {
       return Response.error(400, "ACC046", "O campo rg é obrigátorio.");
@@ -98,9 +119,16 @@ class Account {
       );
     }
 
+    //!Campo RG não está sendo realmente válidado
+    //TODO: Melhorar validação de RG
+
     return Response.result(200);
   }
 
+  /**
+   * * Validar apelido
+   * @returns 
+   */
   validNickname() {
     if (!!!this.nickname) {
       return Response.error(400, "ACC054", "O campo apelido é obrigatório.");
@@ -133,6 +161,10 @@ class Account {
     return Response.result(200);
   }
 
+  /**
+   * * Validar foto
+   * @returns 
+   */
   validPicture() {
     if (!!!this.picture.trim()) {
       return Response.error(400, "ACC048", "O campo foto é obrigátorio.");
@@ -150,6 +182,7 @@ class Account {
       this.picture.substring(this.picture.indexOf(",") + 1)
     );
 
+    //Verificar se imagem contem mais que 1MB
     if (Math.ceil(buffer.length / 1e3) > 1024) {
       return Response.error(400, "ACC059", "O arquivo deve ser menor que 1MB.");
     }
@@ -159,6 +192,10 @@ class Account {
     return Response.result(200);
   }
 
+  /**
+   * * Validar profissão
+   * @returns 
+   */
   validProfession() {
     if (!!!this.profession) {
       return Response.error(400, "ACC049", "O campo profissão é obrigátorio.");
@@ -175,6 +212,10 @@ class Account {
     return Response.result(200);
   }
 
+  /**
+   * * Validar empresa
+   * @returns 
+   */
   validCompany() {
     if (!!!this.company) {
       return Response.error(400, "ACC050", "O campo empresa é obrigátorio.");
@@ -191,6 +232,10 @@ class Account {
     return Response.result(200);
   }
 
+  /**
+   * * Validar descrição
+   * @returns 
+   */
   validDescription() {
     if (!!!this.description) {
       return Response.error(400, "ACC051", "O campo descrição é obrigátorio.");
@@ -207,6 +252,10 @@ class Account {
     return Response.result(200);
   }
 
+  /**
+   * * Verificar se todos os campos estão válidos
+   * @returns 
+   */
   valid() {
     const checkBirthdate = this.validBirthdate();
     if (!this.hasResult(checkBirthdate)) return checkBirthdate;
@@ -235,6 +284,11 @@ class Account {
     return Response.result(200);
   }
 
+  /**
+   * * Verificar se o resultado foi bem sucedido
+   * @param {*} result 
+   * @returns 
+   */
   hasResult(result) {
     return result.status === 200;
   }

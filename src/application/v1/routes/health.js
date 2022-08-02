@@ -1,5 +1,10 @@
-const Response = require("../../../infrastructure/utils/response");
+const Response = require("../../../infrastructure/utils/Response");
 
+/**
+ * * Retorna se servidor está ativado
+ * @param {*} req 
+ * @param {*} res 
+ */
 module.exports = (req, res) => {
   Response.json(
     res,

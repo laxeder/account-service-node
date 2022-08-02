@@ -1,6 +1,13 @@
 const { PrismaClient } = require("@prisma/client");
 const logger = require("../../../infrastructure/config/logger");
 
+/**
+ * * Cria cliente do prisma
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
 module.exports = (req, res, next) => {
   try {
     const prisma = new PrismaClient();
@@ -14,7 +21,7 @@ module.exports = (req, res, next) => {
 
     return next();
   } catch (e) {
-    logger.error(`Erro ao injectar o prisma na requisicao: ${e}`);
+    logger.error(`Erro ao injectar o prisma na requisicao: ${e.stack}`);
     return next();
   }
 };
