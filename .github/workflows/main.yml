@@ -4,22 +4,11 @@ on:
   push:
     branches:
       - 'dev'
-env:
-  IMAGE_NAME: account-service-node
 
 jobs:      
   docker:
     runs-on: ubuntu-latest
     steps:
-      - 
-        name: build do node
-        uses: actions/checkout@v2
-        run: | 
-          sudo apt install nodejs
-          sudo apt install npm
-          sudo npm install --global yarn
-          sudo yarn
-          sudo npm run build:linux
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -37,4 +26,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: user/app:latest
+          tags: laxeder/account-service:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+  
