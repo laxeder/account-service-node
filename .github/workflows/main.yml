@@ -3,7 +3,7 @@ name: Workflow - Push em Dockerhub
 on:
   push:
     branches:
-      - 'dev'
+      - 'staging'
 
 jobs:      
   docker:
