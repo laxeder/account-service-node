@@ -14,7 +14,7 @@ services:
       com.docker.network.bridge.name: production-node
     build:
       context: ./
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
     env_file:
       - ./.env
     environment:
