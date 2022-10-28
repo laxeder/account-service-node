@@ -5,26 +5,36 @@ const middleware = require("../middlewares/middlewares");
 // Obter todas as rotas
 const health = require("./health");
 const prismaHealth = require("./prisma-health");
+const keysPair = require("./keys-pair");
+
+const updateAccountPassword = require("./update-account-password");
 const updateAccountByEmail = require("./update-account-by-email");
 const updateAccountByPhone = require("./update-account-by-phone");
 const updateAccount = require("./update-account");
-const updateAccountPassword = require("./update-account-password");
+
 const showAccountByEmail = require("./show-account-by-email");
 const showAccountByPhone = require("./show-account-by-phone");
-const showAccount = require("./show-account");
-const listAccounts = require("./list-accounts");
-const createAccount = require("./create-account");
+
 const listAccountsByName = require("./list-accounts-by-name");
 const listAccountsByEmail = require("./list-accounts-by-email");
 const listAccountsByPhone = require("./list-accounts-by-phone");
-const deleteAccount = require("./delete-account");
+const listAccounts = require("./list-accounts");
+
 const restoreAccount = require("./restore-account");
+const createAccount = require("./create-account");
+const deleteAccount = require("./delete-account");
+const loginAccount = require("./login-account");
+const showAccount = require("./show-account");
+
 const notFound = require("./not-found");
 const internalError = require("./internal-error");
 
 // Adicionar rotas
-routes.get("/health", health);
 routes.get("/mysql/health", prismaHealth);
+routes.get("/keys-pair", keysPair);
+routes.get("/health", health);
+
+routes.post("/account/login", loginAccount);
 
 routes.get("/accounts/email/:email", listAccountsByEmail);
 routes.get("/account/email/:email", showAccountByEmail);
