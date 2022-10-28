@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 ## Node alpine
-FROM node:alpine AS build
+FROM node:16.18.0-buster AS build
 
-## diretorios de trabalho
-WORKDIR /usr/production-node
+## Configurando variáveis de Ambiente
+ENV APP_HOME=/usr/production-node
+
+## diretorio de trabalho
+WORKDIR "$APP_HOME"
 
 ## Arquivos de iniciacao para o node
 COPY package*.json ./
 
 ## install dependences com permissoes root
-RUN npm install node
 RUN npm ci --force
 RUN npm audit fix --force
 
@@ -30,7 +32,9 @@ RUN chmod -R +x ./app.js
 
 
 # Máquina de produção
-FROM node:alpine
+FROM build as build-prod
+
+WORKDIR "$APP_HOME"
 
 ENV NODE_ENV="production"
 
@@ -48,8 +52,6 @@ RUN npm install node-gyp -g
 RUN npm install pm2 -g
 RUN npm install -g nodemon
 RUN npm install -g yarn --force
-
-COPY --from=build /usr/production-node /
 
 ## porta de acesso
 EXPOSE 9000

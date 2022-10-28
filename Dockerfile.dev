@@ -1,7 +1,12 @@
-
 #!/usr/bin/env node
 ## Node alpine
-FROM node:alpine AS environment-node
+FROM node:16.18.0-buster AS build
+
+## Configurando variáveis de Ambiente
+ENV APP_HOME=/usr/environment-node
+
+## diretorio de trabalho
+WORKDIR "$APP_HOME"
 
 LABEL description="environment-node"
 
@@ -12,21 +17,12 @@ LABEL org.opencontainers.image.hostname="environment-node"
 LABEL com.docker.volume.name='environment-node'
 LABEL com.docker.network.bridge.name='environment-node'
 
-## diretorios de trabalho
-WORKDIR /usr/environment-node
-
-# install node-gyp
-# RUN npm install node-gyp -g
-# RUN npm install pm2 -g
-
 ## Arquivos de iniciacao para o node
 COPY package*.json ./
 
 ## install dependences com permissoes root
-RUN npm install node
 RUN npm install -g nodemon
 RUN npm install --force
-# RUN npm audit fix --force
 
 ## Copia projeto
 COPY . .
@@ -42,7 +38,7 @@ COPY . .
 # RUN cd ./src && chmod -R +x *.js
 # RUN chmod -R +x ./app.js
 
-# RUN chmod -R +x *.ts
+# RUN chmod -R +zx *.ts
 
 ## porta de acesso
 EXPOSE 3000
@@ -51,6 +47,4 @@ EXPOSE 3000
 VOLUME /usr/environment-node
 
 ## start do ambiente
-# CMD [ "pm2-runtime","npm", "--", "run", "dev" ]
-
 CMD ["npm", "run", "dev:linux"]
