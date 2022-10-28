@@ -56,7 +56,7 @@ module.exports = async (req, res) => {
     }
 
     const user = users[0];
-    
+
     if (!validHash(user.password, user.salt, password)) {
       logger.error(`Erro ao válidar hash`);
       Response.json(res, Response.error(400, "ACC123", "Senha incorreta."));
@@ -82,16 +82,19 @@ module.exports = async (req, res) => {
       ...user,
       ...account,
       ...address,
+      publicKey: process.env.public,
     };
 
     delete data.Address;
     delete data.Account;
 
-    const token = jwt.sign(data, "ACC", {
+    const sign = process.env.signature;
+
+    const token = jwt.sign(data, sign, {
       expiresIn: "1h",
     });
 
-    const refresh = jwt.sign(data, "ACC", {
+    const refresh = jwt.sign(data, sign, {
       expiresIn: "4h",
     });
 
