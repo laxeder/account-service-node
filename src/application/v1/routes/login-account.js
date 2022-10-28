@@ -4,6 +4,8 @@ const logger = require("../../../infrastructure/config/logger");
 
 const Response = require("../../../infrastructure/utils/Response");
 const { validHash } = require("../../../infrastructure/utils/password");
+const handle = require("../../../infrastructure/utils/handle");
+const readKeys = require("../../../infrastructure/shared/read-keys-pair");
 
 /**
  * * Lista contas pelo email
@@ -68,7 +70,7 @@ module.exports = async (req, res) => {
     const address = user.Address[0];
     const account = user.Account[0];
 
-    const pictureBase64 = Buffer.from(account.picture).toString("base64");
+    const pictureBase64 = Buffer.from(account.picture, 'base64').toString();
 
     if (!isBase64(pictureBase64, { allowMime: true })) {
       logger.error(`Erro ao tentar converter a imagem para base64:  ${account.picture}`);
@@ -87,6 +89,14 @@ module.exports = async (req, res) => {
 
     delete data.Address;
     delete data.Account;
+
+    const [e] = await handle(readKeys("./keys"));
+
+    if (e) {
+      logger.error("Erro ao ler chaves:", e);
+      Response.json(res, Response.error(500, "ACC130", "Erro interno. Favor tentar novamente."));
+      return;
+    }
 
     const sign = process.env.signature;
 
