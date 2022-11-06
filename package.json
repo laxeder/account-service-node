@@ -4,9 +4,10 @@
   "description": "Serviço de tratamento de contas em node",
   "main": "app.js",
   "scripts": {
-    "dev": "set NODE_ENV=development && nodemon app.js",
-    "staging": "set NODE_ENV=production && nodemon app.js --prod",
-    "build": "set NODE_ENV=production && npm ci"
+    "dev": "export NODE_ENV=development && nodemon -L app.js",
+    "staging": "export NODE_ENV=production && nodemon -L app.js --prod",
+    "prod": "nodemon -L app.js --prod",
+    "build": "export NODE_ENV=production && npm ci"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
@@ -27,14 +28,19 @@
     "body-parser": "1.20.0",
     "child_process": "1.0.2",
     "cors": "2.8.5",
+    "crypto-js": "4.1.1",
     "dotenv": "16.0.1",
     "express": "4.18.1",
+    "graceful": "1.0.2",
     "is-base64": "1.1.0",
-    "nodemon": "2.0.16",
-    "pino": "8.0.0",
-    "pino-pretty": "8.0.0",
+    "jshashes": "1.0.8",
+    "jsonwebtoken": "8.5.1",
+    "keypair": "1.0.4",
+    "nodemon": "2.0.19",
+    "nonce": "1.0.4",
+    "prisma": "4.1.0",
     "uuid": "8.3.2",
-    "prisma": "4.0.0"
+    "winston": "3.8.1"
   },
   "devDependencies": {
     "jest": "28.1.1"

@@ -1,6 +1,9 @@
-const Response = require("../infrastructure/utils/response");
+const Response = require("../infrastructure/utils/Response");
 const regex = require("../infrastructure/utils/regex");
 
+/**
+ * * Criar endereço
+ */
 class Address {
   constructor(street, number, complement, neighborhood, city, state, zipcode) {
     this.street = street;
@@ -10,8 +13,22 @@ class Address {
     this.city = city;
     this.state = state;
     this.zipcode = zipcode;
+    this.uuid = "";
   }
 
+  /**
+   * * Define uuid do endereço
+   * @param {*} uuid
+   * @returns
+   */
+  setUuid(uuid = "") {
+    this.uuid = uuid;
+  }
+
+  /**
+   * * Validar rua
+   * @returns
+   */
   validStreet() {
     if (!!!this.street) {
       return Response.error(400, "ACC022", "O campo rua é obrigatório.");
@@ -28,6 +45,10 @@ class Address {
     return Response.result(200);
   }
 
+  /**
+   * * Validar número da residência
+   * @returns
+   */
   validNumber() {
     if (!!!this.number) {
       return Response.error(400, "ACC024", "O campo número é obrigatório.");
@@ -44,6 +65,10 @@ class Address {
     return Response.result(200);
   }
 
+  /**
+   * * Validar bairro
+   * @returns
+   */
   validNeighborhood() {
     if (!!!this.neighborhood) {
       return Response.error(400, "ACC026", "O campo bairro é obrigatório.");
@@ -68,6 +93,10 @@ class Address {
     return Response.result(200);
   }
 
+  /**
+   * * Validar cidade
+   * @returns
+   */
   validCity() {
     if (!!!this.city) {
       return Response.error(400, "ACC029", "O campo cidade é obrigatório.");
@@ -92,6 +121,10 @@ class Address {
     return Response.result(200);
   }
 
+  /**
+   * * Validar estado
+   * @returns
+   */
   validState() {
     if (!!!this.state) {
       return Response.error(400, "ACC032", "O campo estado é obrigatório.");
@@ -116,6 +149,10 @@ class Address {
     return Response.result(200);
   }
 
+  /**
+   * * Validar CEP
+   * @returns
+   */
   validZipcode() {
     if (!!!this.zipcode) {
       return Response.error(400, "ACC035", "O campo CEP é obrigatório.");
@@ -140,6 +177,10 @@ class Address {
     return Response.result(200);
   }
 
+  /**
+   * * Verificar se todos os campos estão válidos
+   * @returns
+   */
   valid() {
     const checkStreet = this.validStreet();
     if (!this.hasResult(checkStreet)) return checkStreet;
@@ -162,6 +203,11 @@ class Address {
     return Response.result(200, "");
   }
 
+  /**
+   * * Verificar se o resultado foi bem sucedido
+   * @param {*} result
+   * @returns
+   */
   hasResult(result) {
     return result.status === 200;
   }

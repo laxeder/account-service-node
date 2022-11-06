@@ -1,4 +1,3 @@
-const hostname = require("./hostname.middleware");
-const ip = require("./ip.middleware");
+//const prisma = require('./prisma.middleware')
 
-module.exports = { hostname, ip };
+module.exports = { /* prisma */ };

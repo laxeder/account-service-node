@@ -4,12 +4,13 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl", "windows"]
 }
 
 model User {
   id        Int      @id @default(autoincrement())
-  uid       Int      @unique @default(1)
+  uid       BigInt   @unique @db.BigInt
   uuid      String   @unique @map("uuid") @db.VarChar(36)
   firstName String   @map("first_name") @db.VarChar(50)
   lastName  String   @map("last_name") @db.VarChar(50)
@@ -17,12 +18,15 @@ model User {
   email     String   @unique @map("email") @db.VarChar(50)
   phone     String   @map("phone") @db.VarChar(15)
   password  String   @map("password") @db.VarChar(255)
+  salt      String   @map("salt") @db.VarChar(16)
+  enabled   Boolean  @default(true) @map("enabled")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   Account Account[]
   Address Address[]
-  @@index([uuid, email, phone, firstName, fullName, password])
+
+  @@index([uid, uuid, email, phone, firstName, fullName, password])
   @@map("Users")
 }
 
@@ -34,7 +38,7 @@ model Account {
   cpf         String   @unique @map("cpf") @db.VarChar(14)
   rg          String   @unique @map("rg") @db.VarChar(32)
   nickname    String   @unique @map("nickname") @db.VarChar(32)
-  picture     String   @map("picture") @db.Text // TODO: esse campo deve ser um blob
+  picture     Bytes    @map("picture") @db.Blob
   profession  String   @map("profession") @db.VarChar(50)
   company     String   @map("company") @db.VarChar(50)
   description String   @map("description") @db.VarChar(255)

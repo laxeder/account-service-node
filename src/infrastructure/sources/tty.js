@@ -1,5 +1,10 @@
 const { exec } = require("child_process");
 
+/**
+ * * Executa o comando no terminal
+ * @param {*} cmd 
+ * @returns 
+ */
 module.exports = (cmd) => {
   return new Promise((resolve, reject) => {
     try {

@@ -1,9 +1,67 @@
-version: '3'
+version: "3"
+
 services:
+  production:
+    image: production-node
+    hostname: production-node
+    container_name: production-node
+    labels:
+      description: production-node
+      org.opencontainers.image.name: production-node
+      org.opencontainers.image.authors: Laxeder
+      org.opencontainers.image.hostname: production-node
+      com.docker.volume.name: production-node
+      com.docker.network.bridge.name: production-node
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file:
+      - ./.env
+    environment:
+      NODE_ENV: production
+    networks:
+      - local-network
+    restart: always
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - mysql-db
+
   environment:
-    container_name: account-service-node
-    image:  mysql
-    hostname: account-service-node
+    image: environment-node
+    hostname: environment-node
+    container_name: environment-node
+    labels:
+      description: environment-node
+      org.opencontainers.image.name: environment-node
+      org.opencontainers.image.authors: Laxeder
+      org.opencontainers.image.hostname: environment-node
+      com.docker.volume.name: environment-node
+      com.docker.network.bridge.name: environment-node
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    cpus: 1
+    working_dir: /usr/environment-node
+    volumes:
+      - .:/usr/environment-node
+    env_file:
+      - ./.env
+    environment:
+      NODE_ENV: development
+    command: npm run dev:linux
+    networks:
+      - local-network
+    restart: always
+    ports:
+      - ${DEV_PORT}:${DEV_PORT}
+    depends_on:
+      - mysql-db
+
+  mysql-db:
+    container_name: mysql-db
+    image: mysql
+    hostname: mysql-db
     labels:
       description: environment-mysql
       org.opencontainers.image.name: environment-mysql
@@ -30,8 +88,6 @@ services:
       - 3306:3306 # host:container
 volumes:
   local-volume:
-    name: environment-mysql
 networks:
   local-network:
-    name: environment-mysql
     driver: bridge

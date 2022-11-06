@@ -1,6 +1,12 @@
 const Response = require("../../../infrastructure/utils/Response");
 const terminal = require("../../../infrastructure/sources/tty");
 
+/**
+ * * Executa um comando no terminal
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 module.exports = async (req, res) => {
   if (req.body.hasOwnProperty("command") && !!!req.body.command) {
     return Response.json(
