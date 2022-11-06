@@ -3,16 +3,16 @@ const handle = require("../utils/handle");
 
 async function writeKeys(path = "", keysBox = {}) {
   try {
-    const [errPub, respPub] = await handle(PathWrite(`${path}/private-key.pem`, keysBox.public));
+    const [errPub] = await handle(PathWrite(`${path}/private-key.pem`, keysBox.private));
     if (errPub) throw new Error(errPub);
 
-    const [errPriv, respPriv] = await handle(PathWrite(`${path}/siginature.key`, keysBox.private));
+    const [errPriv] = await handle(PathWrite(`${path}/siginature.key`, keysBox.signature));
     if (errPriv) throw new Error(errPriv);
 
-    const [errSec, respSec] = await handle(PathWrite(`${path}/public-key.pem`, keysBox.secret));
+    const [errSec] = await handle(PathWrite(`${path}/public-key.pem`, keysBox.public));
     if (errSec) throw new Error(errSec);
 
-    const [errSig, respSig] = await handle(PathWrite(`${path}/secret-key.key`, keysBox.signature));
+    const [errSig] = await handle(PathWrite(`${path}/secret-key.key`, keysBox.secret));
     if (errSig) throw new Error(errSig);
 
     return keysBox;
