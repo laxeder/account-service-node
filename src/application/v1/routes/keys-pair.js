@@ -40,6 +40,6 @@ module.exports = async (req, res) => {
     Response.json(res, Response.result(201));
   } catch (err) {
     console.log("erro ao gerar par de chaves:", err?.stack || err);
-    Response.json(res, Response.error(500, "ACC130", "Erro interno. Favor tentar novamente."));
+    Response.json(res, Response.error(500, "ACC131", "Erro interno. Favor tentar novamente."));
   }
 };
