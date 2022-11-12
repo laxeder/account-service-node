@@ -1,11 +1,11 @@
 const routes = require("express").Router();
 
-const middleware = require("../middlewares/middlewares");
+const { tokenVerify } = require("../middlewares/middlewares");
 
 // Obter todas as rotas
-const health = require("./health");
 const prismaHealth = require("./prisma-health");
 const keysPair = require("./keys-pair");
+const health = require("./health");
 
 const updateAccountPassword = require("./update-account-password");
 const updateAccountByEmail = require("./update-account-by-email");
@@ -15,9 +15,9 @@ const updateAccount = require("./update-account");
 const showAccountByEmail = require("./show-account-by-email");
 const showAccountByPhone = require("./show-account-by-phone");
 
-const listAccountsByName = require("./list-accounts-by-name");
 const listAccountsByEmail = require("./list-accounts-by-email");
 const listAccountsByPhone = require("./list-accounts-by-phone");
+const listAccountsByName = require("./list-accounts-by-name");
 const listAccounts = require("./list-accounts");
 
 const restoreAccount = require("./restore-account");
@@ -26,13 +26,13 @@ const deleteAccount = require("./delete-account");
 const loginAccount = require("./login-account");
 const showAccount = require("./show-account");
 
-const notFound = require("./not-found");
 const internalError = require("./internal-error");
+const notFound = require("./not-found");
 
 // Adicionar rotas
 routes.get("/mysql/health", prismaHealth);
 routes.get("/keys-pair", keysPair);
-routes.get("/health", health);
+routes.get("/health", tokenVerify, health);
 
 routes.post("/account/login", loginAccount);
 
@@ -45,8 +45,8 @@ routes.get("/account/phone/:phone", showAccountByPhone);
 routes.put("/account/phone/:phone", updateAccountByPhone);
 
 routes.get("/accounts/name/:name", listAccountsByName);
-routes.put("/account/restore/:uuid", restoreAccount);
 routes.put("/account/password/:uuid", updateAccountPassword);
+routes.put("/account/restore/:uuid", restoreAccount);
 
 routes.put("/account/:uuid", updateAccount);
 routes.get("/account/:uuid", showAccount);

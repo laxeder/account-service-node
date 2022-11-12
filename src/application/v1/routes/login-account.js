@@ -1,9 +1,7 @@
-const isBase64 = require("is-base64");
-const jwt = require("jsonwebtoken");
-const logger = require("../../../infrastructure/config/logger");
-
-const Response = require("../../../infrastructure/utils/Response");
 const { validHash } = require("../../../infrastructure/utils/password");
+const Response = require("../../../infrastructure/utils/Response");
+const jwtSign = require("../../../infrastructure/shared/jwt-sign");
+const logger = require("../../../infrastructure/config/logger");
 
 /**
  * * Lista contas pelo email
@@ -56,7 +54,7 @@ module.exports = async (req, res) => {
     }
 
     const user = users[0];
-    
+
     if (!validHash(user.password, user.salt, password)) {
       logger.error(`Erro ao válidar hash`);
       Response.json(res, Response.error(400, "ACC123", "Senha incorreta."));
@@ -65,35 +63,14 @@ module.exports = async (req, res) => {
 
     user.uid = user.uid.toString();
 
-    const address = user.Address[0];
-    const account = user.Account[0];
+    delete user.password;
+    delete user.Address;
+    delete user.Account;
+    delete user.salt;
 
-    const pictureBase64 = Buffer.from(account.picture).toString("base64");
+    const token = jwtSign(user, 30);
 
-    if (!isBase64(pictureBase64, { allowMime: true })) {
-      logger.error(`Erro ao tentar converter a imagem para base64:  ${account.picture}`);
-      Response.json(res, Response.error(400, "ACC124", "A imagem está corrompida."));
-      return;
-    }
-
-    account.picture = pictureBase64;
-
-    const data = {
-      ...user,
-      ...account,
-      ...address,
-    };
-
-    delete data.Address;
-    delete data.Account;
-
-    const token = jwt.sign(data, "ACC", {
-      expiresIn: "1h",
-    });
-
-    const refresh = jwt.sign(data, "ACC", {
-      expiresIn: "4h",
-    });
+    const refresh = jwtSign(user, "4h");
 
     Response.json(res, Response.result(200, { token, refresh }));
   } catch (err) {

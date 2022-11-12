@@ -1,3 +1,3 @@
-//const prisma = require('./prisma.middleware')
+const tokenVerify = require('./token.middleware');
 
-module.exports = { /* prisma */ };
+module.exports = { tokenVerify };
