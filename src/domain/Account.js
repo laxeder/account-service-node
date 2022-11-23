@@ -7,16 +7,7 @@ const isBase64 = require("is-base64");
  * * Cria uma conta
  */
 class Account {
-  constructor(
-    birthdate,
-    cpf,
-    rg,
-    nickname,
-    picture,
-    profession,
-    company,
-    description
-  ) {
+  constructor(birthdate, cpf, rg, nickname, picture, profession, company, description) {
     this.birthdate = birthdate;
     this.cpf = cpf;
     this.rg = rg;
@@ -30,8 +21,8 @@ class Account {
 
   /**
    * * Define uuid da conta
-   * @param {*} uuid 
-   * @returns 
+   * @param {*} uuid
+   * @returns
    */
   setUuid(uuid = "") {
     return (this.uuid = uuid);
@@ -39,7 +30,7 @@ class Account {
 
   /**
    * * Validar data de aniversário
-   * @returns 
+   * @returns
    */
   validBirthdate() {
     if (!!!this.birthdate) {
@@ -58,19 +49,11 @@ class Account {
     const year = birthdate.getFullYear();
 
     if (now - year > 120) {
-      return Response.error(
-        400,
-        "ACC043",
-        "A data de aniversário precisa ser menor que 120 anos."
-      );
+      return Response.error(400, "ACC043", "A data de aniversário precisa ser menor que 120 anos.");
     }
 
     if (now - year < 8) {
-      return Response.error(
-        400,
-        "ACC044",
-        "A data de aniversário precisa ser menor que 8 anos."
-      );
+      return Response.error(400, "ACC044", "A data de aniversário precisa ser menor que 8 anos.");
     }
 
     this.birthdate = birthdate;
@@ -80,7 +63,7 @@ class Account {
 
   /**
    * * Validar cpf
-   * @returns 
+   * @returns
    */
   validCPF() {
     if (!!!this.cpf) {
@@ -89,14 +72,14 @@ class Account {
 
     if (!cpf.isValid(this.cpf)) {
       return Response.error(400, "ACC052", "CPF inválido");
-    } 
+    }
 
     return Response.result(200);
   }
-  
+
   /**
    * * Validar RG
-   * @returns 
+   * @returns
    */
   validRG() {
     if (!!!this.rg) {
@@ -104,19 +87,11 @@ class Account {
     }
 
     if (regex.hasLetter.test(this.rg)) {
-      return Response.error(
-        400,
-        "ACC053",
-        "O campo rg não pode conter letras."
-      );
+      return Response.error(400, "ACC053", "O campo rg não pode conter letras.");
     }
 
     if (regex.hasCharSpecialsRG.test(this.rg)) {
-      return Response.error(
-        400,
-        "ACC058",
-        "O campo rg não pode conter caracteres especiais."
-      );
+      return Response.error(400, "ACC058", "O campo rg não pode conter caracteres especiais.");
     }
 
     //!Campo RG não está sendo realmente válidado
@@ -127,7 +102,7 @@ class Account {
 
   /**
    * * Validar apelido
-   * @returns 
+   * @returns
    */
   validNickname() {
     if (!!!this.nickname) {
@@ -135,27 +110,15 @@ class Account {
     }
 
     if (this.nickname.length < 3) {
-      return Response.error(
-        400,
-        "ACC055",
-        "O campo apelido deve ter no mínimo 3 caracteres."
-      );
+      return Response.error(400, "ACC055", "O campo apelido deve ter no mínimo 3 caracteres.");
     }
 
     if (regex.hasNumber.test(this.nickname)) {
-      return Response.error(
-        400,
-        "ACC056",
-        "O campo apelido não pode conter números."
-      );
+      return Response.error(400, "ACC056", "O campo apelido não pode conter números.");
     }
 
     if (regex.hasCharSpecials.test(this.nickname)) {
-      return Response.error(
-        400,
-        "ACC057",
-        "O campo apelido não pode conter caracteres especiais."
-      );
+      return Response.error(400, "ACC057", "O campo apelido não pode conter caracteres especiais.");
     }
 
     return Response.result(200);
@@ -163,7 +126,7 @@ class Account {
 
   /**
    * * Validar foto
-   * @returns 
+   * @returns
    */
   validPicture() {
     if (!!!this.picture.trim()) {
@@ -171,16 +134,10 @@ class Account {
     }
 
     if (!isBase64(this.picture, { allowMime: true })) {
-      return Response.error(
-        400,
-        "ACC058",
-        "O arquivo esta inválido ou corrompido."
-      );
+      return Response.error(400, "ACC058", "O arquivo esta inválido ou corrompido.");
     }
 
-    const buffer = Buffer.from(
-      this.picture.substring(this.picture.indexOf(",") + 1)
-    );
+    const buffer = Buffer.from(this.picture);
 
     //Verificar se imagem contem mais que 1MB
     if (Math.ceil(buffer.length / 1e3) > 1024) {
@@ -194,7 +151,7 @@ class Account {
 
   /**
    * * Validar profissão
-   * @returns 
+   * @returns
    */
   validProfession() {
     if (!!!this.profession) {
@@ -202,11 +159,7 @@ class Account {
     }
 
     if (this.profession.length < 3) {
-      return Response.error(
-        400,
-        "ACC060",
-        "O campo profissão deve conter no mínimo 3 caracteres."
-      );
+      return Response.error(400, "ACC060", "O campo profissão deve conter no mínimo 3 caracteres.");
     }
 
     return Response.result(200);
@@ -214,7 +167,7 @@ class Account {
 
   /**
    * * Validar empresa
-   * @returns 
+   * @returns
    */
   validCompany() {
     if (!!!this.company) {
@@ -222,11 +175,7 @@ class Account {
     }
 
     if (this.company.length < 3) {
-      return Response.error(
-        400,
-        "ACC061",
-        "O campo empresa deve conter no mínimo 3 caracteres."
-      );
+      return Response.error(400, "ACC061", "O campo empresa deve conter no mínimo 3 caracteres.");
     }
 
     return Response.result(200);
@@ -234,7 +183,7 @@ class Account {
 
   /**
    * * Validar descrição
-   * @returns 
+   * @returns
    */
   validDescription() {
     if (!!!this.description) {
@@ -242,11 +191,7 @@ class Account {
     }
 
     if (this.description.length < 3) {
-      return Response.error(
-        400,
-        "ACC062",
-        "O campo descrição deve conter no mínimo 3 caracteres."
-      );
+      return Response.error(400, "ACC062", "O campo descrição deve conter no mínimo 3 caracteres.");
     }
 
     return Response.result(200);
@@ -254,7 +199,7 @@ class Account {
 
   /**
    * * Verificar se todos os campos estão válidos
-   * @returns 
+   * @returns
    */
   valid() {
     const checkBirthdate = this.validBirthdate();
@@ -286,8 +231,8 @@ class Account {
 
   /**
    * * Verificar se o resultado foi bem sucedido
-   * @param {*} result 
-   * @returns 
+   * @param {*} result
+   * @returns
    */
   hasResult(result) {
     return result.status === 200;

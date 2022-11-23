@@ -21,7 +21,9 @@ LABEL com.docker.network.bridge.name='environment-node'
 COPY package*.json ./
 
 ## install dependences com permissoes root
+RUN npm install npm@9.1.2
 RUN npm install -g nodemon
+RUN npm install -g yarn --force
 RUN npm install --force
 
 ## Copia projeto
@@ -47,4 +49,4 @@ EXPOSE 3000
 VOLUME /usr/environment-node
 
 ## start do ambiente
-CMD ["npm", "run", "dev:linux"]
+CMD ["npm", "run", "dev"]

@@ -57,4 +57,4 @@ RUN npm install -g yarn --force
 EXPOSE 9000
 
 ## start do ambiente
-CMD [ "pm2-runtime", "npm", "--", "run", "prod:linux" ]
+CMD [ "pm2-runtime", "npm", "--", "run", "prod" ]

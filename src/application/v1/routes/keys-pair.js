@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
 
     Response.json(res, Response.result(201));
   } catch (err) {
-    console.log("erro ao gerar par de chaves:", err?.stack || err);
+    logger.error(`erro ao gerar par de chaves: ${err?.stack || err}`);
     Response.json(res, Response.error(500, "ACC131", "Erro interno. Favor tentar novamente."));
   }
 };

@@ -4,9 +4,9 @@ const isBase64 = require("is-base64");
 
 /**
  * * Mostrar todas as contas pelo email
- * @param {*} req 
- * @param {*} res 
- * @returns 
+ * @param {*} req
+ * @param {*} res
+ * @returns
  */
 module.exports = async (req, res) => {
   const { prisma } = req;
@@ -69,16 +69,11 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const pictureBase64 = Buffer.from(accountData.picture).toString("base64");
+  const pictureBase64 = Buffer.from(accountData.picture, "base64").toString();
 
   if (!isBase64(pictureBase64, { allowMime: true })) {
-    logger.error(
-      `Erro ao tentar converter a imagem para base64:  ${accountData.picture}`
-    );
-    Response.json(
-      res,
-      Response.error(400, "ACC092", "A imagem está corrompida.")
-    );
+    logger.error(`Erro ao tentar converter a imagem para base64:  ${accountData.picture}`);
+    Response.json(res, Response.error(400, "ACC092", "A imagem está corrompida."));
     return;
   }
 
@@ -100,9 +95,7 @@ module.exports = async (req, res) => {
     },
   });
   if (addressData === null) {
-    logger.error(
-      `Erro ao tentar obter endereço:  ${JSON.stringify(addressData)}`
-    );
+    logger.error(`Erro ao tentar obter endereço:  ${JSON.stringify(addressData)}`);
     Response.json(res, Response.errorDefault("ACC087"));
     return;
   }

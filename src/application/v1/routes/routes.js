@@ -36,22 +36,22 @@ routes.get("/health", tokenVerify, health);
 
 routes.post("/account/login", loginAccount);
 
-routes.get("/accounts/email/:email", listAccountsByEmail);
-routes.get("/account/email/:email", showAccountByEmail);
-routes.put("/account/email/:email", updateAccountByEmail);
+routes.get("/accounts/email/:email", tokenVerify, listAccountsByEmail);
+routes.get("/account/email/:email", tokenVerify, showAccountByEmail);
+routes.put("/account/email/:email", tokenVerify, updateAccountByEmail);
 
-routes.get("/accounts/phone/:phone", listAccountsByPhone);
-routes.get("/account/phone/:phone", showAccountByPhone);
-routes.put("/account/phone/:phone", updateAccountByPhone);
+routes.get("/accounts/phone/:phone", tokenVerify, listAccountsByPhone);
+routes.get("/account/phone/:phone", tokenVerify, showAccountByPhone);
+routes.put("/account/phone/:phone", tokenVerify, updateAccountByPhone);
 
-routes.get("/accounts/name/:name", listAccountsByName);
-routes.put("/account/password/:uuid", updateAccountPassword);
-routes.put("/account/restore/:uuid", restoreAccount);
+routes.get("/accounts/name/:name", tokenVerify, listAccountsByName);
+routes.put("/account/password/:uuid", tokenVerify, updateAccountPassword);
+routes.put("/account/restore/:uuid", tokenVerify, restoreAccount);
 
-routes.put("/account/:uuid", updateAccount);
-routes.get("/account/:uuid", showAccount);
-routes.delete("/account/:uuid", deleteAccount);
-routes.get("/accounts", listAccounts);
+routes.put("/account/:uuid", tokenVerify, updateAccount);
+routes.get("/account/:uuid", tokenVerify, showAccount);
+routes.delete("/account/:uuid", tokenVerify, deleteAccount);
+routes.get("/accounts", tokenVerify, listAccounts);
 routes.post("/account", createAccount);
 
 routes.get("/notFound", notFound);

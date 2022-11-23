@@ -49,14 +49,13 @@ services:
       - ./.env
     environment:
       NODE_ENV: development
-    command: npm run dev:linux
     networks:
       - local-network
     restart: always
     ports:
       - ${DEV_PORT}:${DEV_PORT}
-    depends_on:
-      - mysql-db
+ #   depends_on:
+ #     - mysql-db
 
   mysql-db:
     container_name: mysql-db

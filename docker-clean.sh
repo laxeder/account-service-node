@@ -1,3 +1,5 @@
+#! /bin/bash +x
+
 # ## remove todos os containers orphans
 sudo docker-compose down --remove-orphans
 

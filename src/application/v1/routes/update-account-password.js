@@ -111,7 +111,6 @@ module.exports = async (req, res) => {
   );
 
   if (userErr) {
-    console.log("err", userErr);
     const {
       meta: { target },
     } = userErr;
