@@ -32,7 +32,7 @@ const notFound = require("./not-found");
 // Adicionar rotas
 routes.get("/mysql/health", prismaHealth);
 routes.get("/keys-pair", keysPair);
-routes.get("/health", tokenVerify, health);
+routes.get("/health", health);
 
 routes.post("/account/login", loginAccount);
 

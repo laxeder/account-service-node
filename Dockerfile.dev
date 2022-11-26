@@ -23,24 +23,11 @@ COPY package*.json ./
 ## install dependences com permissoes root
 RUN npm install npm@9.1.2
 RUN npm install -g nodemon
-RUN npm install -g yarn --force
-RUN npm install --force
+RUN npm install -g prisma
+RUN npm install
 
 ## Copia projeto
 COPY . .
-
-# ## alterar permissões para o formato linux
-# RUN find ./prisma -type f -print0 | xargs -0 sed -i 's/\r$//'
-# RUN find ./src -type f -print0 | xargs -0 sed -i 's/\r$//'
-# RUN find ./prisma -type d -print0 | xargs -0 chmod 755  
-# RUN find ./src -type d -print0 | xargs -0 chmod 755  
-# RUN find ./prisma -type f -print0 | xargs -0 chmod 644
-# RUN find ./src -type f -print0 | xargs -0 chmod 644
-# RUN cd ./prisma && chmod -R +x *.js
-# RUN cd ./src && chmod -R +x *.js
-# RUN chmod -R +x ./app.js
-
-# RUN chmod -R +zx *.ts
 
 ## porta de acesso
 EXPOSE 3000

@@ -5,7 +5,8 @@ const logger = require("../../../infrastructure/config/logger");
 
 module.exports = async (req, res, next) => {
   try {
-    let { bearer: token, "api-x-token": refresh } = req.headers;
+    let { authorization: bearer, "api-x-token": refresh } = req.headers;
+    let token = bearer.replace("Bearer", "").trim();
 
     const verify = jwtVerify(token, refresh);
 
@@ -49,13 +50,13 @@ module.exports = async (req, res, next) => {
       token = jwtSign(user, "1h");
       refresh = jwtSign(user, "4h");
 
-      res.append("Bearer", token);
+      res.append("Authorization", `Bearer ${token}`);
       res.append("Api-X-Token", refresh);
     }
 
     return next();
   } catch (e) {
-    logger.error("Erro ao verificar token:", e?.stack | e);
+    logger.error(`Erro ao verificar token: ${e}`);
     Response.json(res, Response.error(403, "ACC130", "Token expirado ou inválido."));
   }
 };

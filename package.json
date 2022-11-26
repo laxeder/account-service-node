@@ -4,9 +4,9 @@
   "description": "Serviço de tratamento de contas em node",
   "main": "app.js",
   "scripts": {
-    "dev": "export NODE_ENV=development ; yarn prisma migrate dev ; nodemon -L app.js",
-    "staging": "export NODE_ENV=production ; yarn prisma migrate deploy ; nodemon -L app.js --prod",
-    "prod": "export NODE_ENV=production ; yarn prisma migrate deploy ; nodemon -L app.js --prod",
+    "dev": "export NODE_ENV=development ; prisma migrate dev ; nodemon -L app.js",
+    "staging": "export NODE_ENV=production ; prisma migrate deploy ; nodemon -L app.js --prod",
+    "prod": "export NODE_ENV=production ; prisma migrate deploy ; nodemon -L app.js --prod",
     "build": "export NODE_ENV=production ; npm ci"
   },
   "prisma": {
@@ -24,7 +24,6 @@
   "homepage": "https://github.com/Laxeder/account-service-node#readme",
   "dependencies": {
     "@fnando/cpf": "1.0.2",
-    "@prisma/client": "4.0.0",
     "body-parser": "1.20.0",
     "child_process": "1.0.2",
     "cors": "2.8.5",
@@ -36,11 +35,12 @@
     "jsonwebtoken": "8.5.1",
     "nodemon": "2.0.19",
     "nonce": "1.0.4",
-    "prisma": "4.1.0",
     "uuid": "8.3.2",
     "winston": "3.8.1"
   },
   "devDependencies": {
-    "jest": "28.1.1"
+    "@prisma/client": "4.6.1",
+    "jest": "28.1.1",
+    "prisma": "4.6.1"
   }
 }

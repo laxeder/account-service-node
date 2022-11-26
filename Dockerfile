@@ -18,19 +18,6 @@ RUN npm audit fix --force
 ## Copia projeto
 COPY . .
 
-## alterar permissões para o formato linux
-RUN find ./prisma -type f -print0 | xargs -0 sed -i 's/\r$//'
-RUN find ./src -type f -print0 | xargs -0 sed -i 's/\r$//'
-RUN find ./prisma -type d -print0 | xargs -0 chmod 755  
-RUN find ./src -type d -print0 | xargs -0 chmod 755  
-RUN find ./prisma -type f -print0 | xargs -0 chmod 644
-RUN find ./src -type f -print0 | xargs -0 chmod 644
-RUN cd ./prisma && chmod -R +x *.js
-RUN cd ./src && chmod -R +x *.js
-RUN chmod -R +x ./app.js
-
-
-
 # Máquina de produção
 FROM build as build-prod
 
@@ -48,10 +35,12 @@ LABEL com.docker.volume.name='production-node'
 LABEL com.docker.network.bridge.name='production-node'
 
 # install ferramentas de deploy
+RUN npm install npm@9.1.2
 RUN npm install node-gyp -g
 RUN npm install pm2 -g
 RUN npm install -g nodemon
-RUN npm install -g yarn --force
+RUN npm install -g prisma
+RUN npm install
 
 ## porta de acesso
 EXPOSE 9000
